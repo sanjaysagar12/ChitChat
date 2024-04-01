@@ -188,12 +188,7 @@ class MainGUI:
             time.sleep(0.05)
             Msg_Recv = Msg_Recv + "\n"
             Display_Msg.insert(END, Msg_Recv)
-            Display_Msg.config(state=DISABLED)  # To Disable Text Box
-
-            # Store the received message in the database
-            query = "INSERT INTO messages (sender, message_text) VALUES (%s, %s)"
-            values = ("Other", Msg_Recv)  # Assuming "Other" for received messages
-           
+            Display_Msg.config(state=DISABLED)  # To Disable Text Box           
 
         def RecivedMsg():
             while True:

@@ -5,7 +5,7 @@ import threading
 from tkinter import *
 import tkinter.messagebox as messagebox
 from cryptography.fernet import Fernet
-import mysql.connector
+
 
 class Encryption:
     def Encrypt(self, Key, msg):
@@ -156,17 +156,7 @@ class MainGUI:
         GUI2.geometry("550x600")
         GUI2.resizable(width=False, height=False)
 
-        # Connect to the MySQL database
-        db = mysql.connector.connect(
-            host="localhost",
-            user="root",
-            password="Sridharsh@12",
-            database="chit_chat"
-        )
-
-        # Create a cursor object
-        cursor = db.cursor()
-
+      
         Msg_Frame = Frame(GUI2)  # 2nd Frame for Inserting Message
         Msg_Frame.pack()
 
@@ -186,12 +176,6 @@ class MainGUI:
             Display_Msg.pack(side=LEFT, fill=BOTH)
             Display_Msg.config(state=DISABLED)  # To Disable Text Box
 
-            # Store the sent message in the database
-            query = "INSERT INTO messages (sender, message_text) VALUES (%s, %s)"
-            values = (info[2], Msg_Sent)  # Assuming info[2] is the user_name
-            cursor.execute(query, values)
-            db.commit()
-
         def Send(Msg_To_Send, User_Input):
             time.sleep(0.05)
             Msg_To_Send = "[" + info[2] + "]> " + Msg_To_Send
@@ -209,8 +193,7 @@ class MainGUI:
             # Store the received message in the database
             query = "INSERT INTO messages (sender, message_text) VALUES (%s, %s)"
             values = ("Other", Msg_Recv)  # Assuming "Other" for received messages
-            cursor.execute(query, values)
-            db.commit()
+           
 
         def RecivedMsg():
             while True:
@@ -228,8 +211,7 @@ class MainGUI:
 
         def on_closing():
             # Close the database connection
-            cursor.close()
-            db.close()
+        
             GUI2.destroy()
 
         GUI2.protocol("WM_DELETE_WINDOW", on_closing)
